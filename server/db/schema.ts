@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
@@ -73,3 +73,36 @@ export const verification = sqliteTable("verification", {
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
 });
+
+export const categories = sqliteTable("categories", {
+  id: text("id").primaryKey().unique(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  type: text("type", { enum: ["expense", "income"] })
+    .$type<"expense" | "income">()
+    .notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .defaultNow()
+    .notNull(),
+})
+
+export const transactions = sqliteTable("transactions", {
+  id: text("id").primaryKey().unique(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  categoryId: text("category_id")
+    .notNull()
+    .references(() => categories.id, { onDelete: "cascade" }),
+  type: text("type", { enum: ["expense", "income"] })
+    .$type<"expense" | "income">()
+    .notNull(),
+  amount: real("amount")
+    .notNull(),
+  description: text("description")
+    .notNull(),
+  date: integer("date", { mode: "timestamp" })
+    .notNull()
+})

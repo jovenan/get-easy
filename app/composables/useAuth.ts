@@ -1,9 +1,10 @@
-import type { Session } from "better-auth";
+import type { Session, User } from "better-auth";
 import { client } from "~/lib/auth";
 
 export const useAuth = () => {
     const headers = import.meta.server ? useRequestHeaders() : undefined
     const session = useState<Session | null>('auth:session', () => null)
+    const user = useState<User | null>('auth:user', () => null)
 
     const signInWithEmail = async ({ email, password }: { email: string, password: string}) => {
         const session = await client.signIn.email({
@@ -35,6 +36,7 @@ export const useAuth = () => {
           },
         });
         session.value = result.data?.session ?? null;
+        user.value = result.data?.user ?? null;
         return session;
     }
 
@@ -46,5 +48,5 @@ export const useAuth = () => {
         })
       }
     
-    return { session, signInWithEmail, signUpWithEmail, logout, fetchSession, loggedIn: computed(() => !!session.value) };
+    return { session, user, signInWithEmail, signUpWithEmail, logout, fetchSession, loggedIn: computed(() => !!session.value) };
 }
