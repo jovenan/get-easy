@@ -1,75 +1,11 @@
-# Nuxt Minimal Starter
-
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+# Get Easy
+#### Video Demo:  https://youtu.be/qJmE13eTQ0Y
+#### Description:
+Get Easy is an app that I created to make it easier to track my monthly expenses, where I can easily add expenses and organize by categories. Get Easy is an app built with NuxtJS which is a vuejs framework using typescript, which abstracts for a project several functionalities and facilities to deal with routing, server side rendering that helps with page loading, since it will load the content on the server.
+The app has a registration and login system with email and password, which allows several people to register in the app and add their expenses. In addition, the logged area of the app has two functionalities, the first one is being able to create and delete the expense categories that will be added. The main view is the dashboard where there is initially the view of the expense summary by period and filters applied in the listing. This listing shows all registered expenses, where it is possible to see per row each expense, where it has the columns of: the created date, expense description, expense category, expense type and the expense value. To register expenses there is a button that the user can press and a modal will open where he can fill in the necessary information and select the category in which the expense fits. When pressing save the expense will already be saved. Within this main view, we also have date and category filters. By default the view of the table and the total expenses will always be that of the current month, but the user can easily select a different period to see the expenses and track the expense summary. In addition, he can use the category filter, and view the expenses of that specific category.
+The app data is persisted in a sqlite database, in the turso service. I use in the project the drizzle ORM library, which is a library that helps to abstract database operations using typescript functions, which facilitates the creation of operations, since it is not necessary to create SQL scripts. With it all database migrations are also controlled, such as table and column updates, making the setup easily simple when we run the local environment and in production.
+The nuxt ecosystem helps a lot in the sense of: I can easily use libraries that help in the creation of UI components that are universal, such as button and modal styles, besides also making it easier to use icons.
+The login system was made using better auth, which is a framework widely used for creating authentication systems, because it abstracts the main functionalities such as session management and login creation.
+To create the functionalities, the project is organized into API routes and routes that will render the vuejs templates. The API was created using nuxt's own API route system, where in the API folder I can create separate files inside the /api folder and these files work as GET and POST routes. I have services to manage the creation and search of categories and transactions. The category routes are simple, I have one to create categories and another to list categories. And for transactions I have one to create a transaction and another to list transactions. This listing one has filters by date and by categories, facilitating the use for frontend routes.
+Coming to the front end, it is organized using nuxt's routing features, where each route is created in a file in the /pages folder. In the project we have inside the composables folder files where I can abstract the business logic of my app. I have 3, one to manage authentication, another to manage the creation and listing of categories, and the last one to manage the creation, search and filtering of transactions. In addition, I have inside the components folder, the components that repeat and can be reused within the application. Thus composing the application as a whole in an organized and scalable project.
+This app uses bun as its runtime. I use it because, based on some benchmarks, it offers a very good performance gain compared to NodeJS and Deno, which have the same objective. To run the project, you need to have some environment variables in your .env file. These are TURSO_DATABASE_URL, TURSO_AUTH_TOKEN, BETTER_AUTH_SECRET, and BETTER_AUTH_URL. Without them, it's not possible to run the app locally, since they are used for the database and the authentication system.
